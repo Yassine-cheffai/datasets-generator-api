@@ -81,7 +81,7 @@ def build(request: Request):
     if request.retweets is False:
         query += " -filter:retweets"
 
-    tweets = tw.Cursor(api.search, q=query, since=request.since).items(10)
+    tweets = tw.Cursor(api.search, q=query, since=request.since).items()
 
     # lang, created_at, author.screen_name, text, retweet_count
 
