@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 import tweepy as tw
 import pandas as pd
+from textblob import TextBlob
 
 load_dotenv()
 
@@ -17,6 +18,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "http://127.0.0.1",
+    "http://127.0.0.1:3000"
 ]
 
 app.add_middleware(
@@ -59,6 +62,9 @@ def unpack(tweet: tw.Cursor, request: Request) -> list:
                 result.append(tweet.text)
         if field == "retweet_count":
             result.append(tweet.retweet_count)
+        if field == "polarity":
+            polarity = TextBlob(tweet.text).polarity
+            result.append(polarity)
 
     return result
 
@@ -81,13 +87,18 @@ def build(request: Request):
     if request.retweets is False:
         query += " -filter:retweets"
 
+    if request.polarity:
+        request.csv_fields.append("polarity")
+
     tweets = tw.Cursor(api.search, q=query, since=request.since).items()
 
     # lang, created_at, author.screen_name, text, retweet_count
 
     data = [unpack(tweet, request) for tweet in tweets]
+
     data_frame = pd.DataFrame(data, columns=request.csv_fields)
     data_frame.head()
+
     data.insert(0, request.csv_fields)
 
     print(data_frame)
