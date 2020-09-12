@@ -5,6 +5,6 @@
 `gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker`
 
 ## docker
-`docker build --tag tdb:1.0 . `  
-`docker run --publish 8000:8000 --name tdb tdb:1.0`  
-`docker rm --force tdb`  
+`docker build --tag tdb-api:1.0 . `  
+`docker run --detach --publish 8000:80 --name tdb-api tdb-api:1.0`  
+`docker rm --force tdb-api`  
