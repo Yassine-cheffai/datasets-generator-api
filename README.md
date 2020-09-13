@@ -7,4 +7,5 @@
 ## docker
 `docker build --tag tdb-api:1.0 . `  
 `docker run --detach --publish 8000:80 --name tdb-api tdb-api:1.0`  
-`docker rm --force tdb-api`  
+`docker stop tdb-api`  
+`docker rm --force tdb-api   # --force to force stop the container`  
