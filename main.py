@@ -20,7 +20,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://127.0.0.1",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
 ]
 
 app.add_middleware(
@@ -74,11 +74,13 @@ def unpack(tweet: tw.Cursor, request: Request) -> list:
 def build(request: Request):
 
     auth = tw.OAuthHandler(
-        os.getenv("TWITTER_CONSUMER_KEY"), os.getenv("TWITTER_CONSUMER_SECRET"),
+        os.getenv("TWITTER_CONSUMER_KEY"),
+        os.getenv("TWITTER_CONSUMER_SECRET"),
     )
 
     auth.set_access_token(
-        os.getenv("TWITTER_ACCESS_TOKEN"), os.getenv("TWITTER_ACCESS_TOKEN_SECRET"),
+        os.getenv("TWITTER_ACCESS_TOKEN"),
+        os.getenv("TWITTER_ACCESS_TOKEN_SECRET"),
     )
 
     api = tw.API(auth, wait_on_rate_limit=True)
