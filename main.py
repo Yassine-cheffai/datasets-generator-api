@@ -35,7 +35,6 @@ app.add_middleware(
 class Request(BaseModel):
     keywords: str
     csv_fields: List[str] = ["text"]
-    since: str  # date format : YYYY-MM-DD
     polarity: bool = False
     retweets: bool = False
     remove_urls: bool = False
@@ -93,7 +92,7 @@ def build(request: Request):
     if request.polarity:
         request.csv_fields.append("polarity")
 
-    tweets = tw.Cursor(api.search, q=query, since=request.since).items()
+    tweets = tw.Cursor(api.search, q=query).items()
 
     # lang, created_at, author.screen_name, text, retweet_count
 
