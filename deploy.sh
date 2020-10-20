@@ -18,4 +18,4 @@ echo $GIT_REPOSITORY
 # https://serverfault.com/questions/241588/how-to-automate-ssh-login-with-password
 
 
-echo "hello by yassine :)"
+echo "deploy using heroku"
