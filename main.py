@@ -1,3 +1,4 @@
+import time
 from typing import List
 import os
 import re
@@ -66,6 +67,7 @@ def unpack(tweet: tw.Cursor, request: Request) -> list:
             polarity = TextBlob(tweet.text).polarity
             result.append(polarity)
 
+    print(f"processing {result}")
     return result
 
 
@@ -95,14 +97,14 @@ def build(request: Request):
     tweets = tw.Cursor(api.search, q=query).items()
 
     # lang, created_at, author.screen_name, text, retweet_count
-
-    data = [unpack(tweet, request) for tweet in tweets]
-
-    data_frame = pd.DataFrame(data, columns=request.csv_fields)
-    data_frame.head()
+    data = [] 
+    max_time = time.time() + 20
+    for tweet in tweets:
+        if time.time() <= max_time:
+            data.append(unpack(tweet, request))
+        else:
+            break
 
     data.insert(0, request.csv_fields)
-
-    print(data_frame)
 
     return {"result": data}
