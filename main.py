@@ -87,7 +87,7 @@ def build(request: Request):
     api = tw.API(auth, wait_on_rate_limit=True)
     query = "#" + request.keywords
 
-    # remove retweets
+    # remove retweets: to be deleted probably
     if request.retweets is False:
         query += " -filter:retweets"
 
