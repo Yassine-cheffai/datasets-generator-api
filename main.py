@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import tweepy as tw
-import pandas as pd
 from textblob import TextBlob
 
 load_dotenv()
