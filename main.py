@@ -96,7 +96,7 @@ def build(request: Request):
     tweets = tw.Cursor(api.search, q=query).items()
 
     # lang, created_at, author.screen_name, text, retweet_count
-    data = [] 
+    data = []
     max_time = time.time() + 20
     for tweet in tweets:
         if time.time() <= max_time:
