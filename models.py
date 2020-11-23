@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class TwitterRequest(BaseModel):
     keywords: str
     csv_fields: List[str] = ["text"]

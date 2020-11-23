@@ -1,3 +1,6 @@
+import re
+from textblob import TextBlob
+import tweepy as tw
 from models import TwitterRequest
 
 

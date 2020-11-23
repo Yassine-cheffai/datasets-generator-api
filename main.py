@@ -1,14 +1,14 @@
 import time
 import os
-import re
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from dotenv import load_dotenv
 import tweepy as tw
-from textblob import TextBlob
 from models import TwitterRequest
+from helpers import unpack
+
 load_dotenv()
 
 app = FastAPI()
@@ -30,9 +30,8 @@ app.add_middleware(
 )
 
 
-
-@app.post("/")
-def build(request: TwitterRequest):
+@app.post("/twitter/")
+def build_twitter(request: TwitterRequest):
 
     auth = tw.OAuthHandler(
         os.getenv("TWITTER_CONSUMER_KEY"),
