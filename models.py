@@ -8,3 +8,7 @@ class TwitterRequest(BaseModel):
     polarity: bool = False
     retweets: bool = False
     remove_urls: bool = False
+
+
+class RedditRequest(BaseModel):
+    keywords: str

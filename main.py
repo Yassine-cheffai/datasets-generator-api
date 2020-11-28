@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from dotenv import load_dotenv
 import tweepy as tw
-from models import TwitterRequest
+from models import TwitterRequest, RedditRequest
 from helpers import unpack
 
 load_dotenv()
@@ -67,3 +67,8 @@ def build_twitter(request: TwitterRequest):
     data.insert(0, request.csv_fields)
 
     return {"result": data}
+
+
+@app.post("/reddit/")
+def build_reddit(request: RedditRequest):
+    return {"test": "test"}
