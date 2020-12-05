@@ -71,4 +71,9 @@ def build_twitter(request: TwitterRequest):
 
 @app.post("/reddit/")
 def build_reddit(request: RedditRequest):
-    return {"test": "test"}
+    print(request)
+    if request.search_type == "specific_subreddit":
+        pass
+    else:
+        pass
+    return {"keywords from the backend": request.keywords}

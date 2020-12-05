@@ -1,7 +1,8 @@
 import re
 from textblob import TextBlob
 import tweepy as tw
-from models import TwitterRequest
+import praw
+from models import TwitterRequest, RedditRequest
 
 
 def remove_urls(txt: str) -> str:
@@ -32,3 +33,10 @@ def unpack(tweet: tw.Cursor, request: TwitterRequest) -> list:
 
     print(f"processing {result}")
     return result
+
+def build_specific_subreddit(request: RedditRequest):
+    subreddit_name = request.keywords
+    reddit = praw.Reddit(client_id="cf1WIz3lBN8bBA",
+                         client_secret="HMdgpBj3tNRn_iPN2hd1VU9Qqf95zQ",
+                         user_agent="web:datasets-generator")
+    subreddit = reddit.subreddit(subreddit_name)
