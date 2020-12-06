@@ -13,3 +13,4 @@ class TwitterRequest(BaseModel):
 class RedditRequest(BaseModel):
     keywords: str
     search_type: str
+    csv_fields: List[str] = ["title"]

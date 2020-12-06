@@ -6,8 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from dotenv import load_dotenv
 import tweepy as tw
+import praw
 from models import TwitterRequest, RedditRequest
-from helpers import unpack
+from helpers import unpack_tweet, unpack_submission
 
 load_dotenv()
 
@@ -60,7 +61,7 @@ def build_twitter(request: TwitterRequest):
     max_time = time.time() + 20
     for tweet in tweets:
         if time.time() <= max_time:
-            data.append(unpack(tweet, request))
+            data.append(unpack_tweet(tweet, request))
         else:
             break
 
@@ -71,9 +72,19 @@ def build_twitter(request: TwitterRequest):
 
 @app.post("/reddit/")
 def build_reddit(request: RedditRequest):
-    print(request)
+    reddit = praw.Reddit(
+         client_id="cf1WIz3lBN8bBA",
+         client_secret="HMdgpBj3tNRn_iPN2hd1VU9Qqf95zQ",
+         user_agent="web:datasets-generator"
+    )
     if request.search_type == "specific_subreddit":
-        pass
+        submissions = reddit.subreddit(request.keywords).new(limit=None)
+        results = []
+        for submission in submissions:
+            results.append(unpack_submission(submission, request))
     else:
-        pass
-    return {"keywords from the backend": request.keywords}
+        submissions = reddit.subreddit("all").search(request.keywords).new(limit=None)
+        results = []
+        for submission in submissions:
+            results.append(unpack_submission(submission, request))
+    return {"result from the backend": results}

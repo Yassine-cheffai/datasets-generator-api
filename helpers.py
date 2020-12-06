@@ -1,7 +1,6 @@
 import re
 from textblob import TextBlob
 import tweepy as tw
-import praw
 from models import TwitterRequest, RedditRequest
 
 
@@ -9,7 +8,7 @@ def remove_urls(txt: str) -> str:
     return re.sub("([^0-9A-Za-z \t])|(\w+:\/\/\S+)", "", txt)
 
 
-def unpack(tweet: tw.Cursor, request: TwitterRequest) -> list:
+def unpack_tweet(tweet: tw.Cursor, request: TwitterRequest) -> list:
 
     result = []
 
@@ -34,9 +33,16 @@ def unpack(tweet: tw.Cursor, request: TwitterRequest) -> list:
     print(f"processing {result}")
     return result
 
-def build_specific_subreddit(request: RedditRequest):
-    subreddit_name = request.keywords
-    reddit = praw.Reddit(client_id="cf1WIz3lBN8bBA",
-                         client_secret="HMdgpBj3tNRn_iPN2hd1VU9Qqf95zQ",
-                         user_agent="web:datasets-generator")
-    subreddit = reddit.subreddit(subreddit_name)
+
+def unpack_submission(submission, request: RedditRequest) -> dict:
+    result = []
+    for field in request.csv_fields:
+        if field == "title":
+            result.append(submission.title)
+        if field == "selftext":
+            result.append(submission.selftext)
+        if field == "author":
+            if submission.author:
+                result.append(submission.author.name)
+
+    return result
