@@ -77,14 +77,14 @@ def build_reddit(request: RedditRequest):
          client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
          user_agent="web:datasets-generator"
     )
+    results = []
     if request.search_type == "specific_subreddit":
         submissions = reddit.subreddit(request.keywords).new(limit=None)
-        results = []
         for submission in submissions:
             results.append(unpack_submission(submission, request))
     else:
-        submissions = reddit.subreddit("all").search(request.keywords).new(limit=None)
-        results = []
+        submissions = reddit.subreddit("all").search(request.keywords)
         for submission in submissions:
             results.append(unpack_submission(submission, request))
-    return {"result from the backend": results}
+    results.insert(0, request.csv_fields)
+    return {"result": results}
