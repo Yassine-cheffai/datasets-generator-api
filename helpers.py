@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 from textblob import TextBlob
 import tweepy as tw
@@ -34,13 +35,17 @@ def unpack_tweet(tweet: tw.Cursor, request: TwitterRequest) -> list:
     return result
 
 
-def unpack_submission(submission, request: RedditRequest) -> dict:
+def unpack_submission(submission, request: RedditRequest) -> list:
     result = []
     for field in request.csv_fields:
         if field == "title":
             result.append(submission.title)
         if field == "selftext":
             result.append(submission.selftext)
+        if field == "num_comments":
+            result.append(submission.num_comments)
+        if field == "created_utc":
+            result.append(datetime.fromtimestamp(submission.created_utc).strftime("%Y-%m-%d"))
         if field == "author":
             if submission.author:
                 result.append(submission.author.name)
