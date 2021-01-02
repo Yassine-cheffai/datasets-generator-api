@@ -73,9 +73,9 @@ def build_twitter(request: TwitterRequest):
 @app.post("/reddit/")
 def build_reddit(request: RedditRequest):
     reddit = praw.Reddit(
-         client_id=os.getenv("REDDIT_CLIENT_ID"),
-         client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
-         user_agent="web:datasets-generator"
+        client_id=os.getenv("REDDIT_CLIENT_ID"),
+        client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
+        user_agent="web:datasets-generator",
     )
     results = []
     if request.search_type == "specific_subreddit":
