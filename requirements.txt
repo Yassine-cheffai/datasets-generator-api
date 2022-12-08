@@ -3,7 +3,7 @@ appdirs==1.4.4
 black==20.8b1
 blessings==1.7
 bpython==0.19
-certifi==2020.4.5.1
+certifi==2022.12.7
 chardet==3.0.4
 click==7.1.2
 curtsies==0.3.1
